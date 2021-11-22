@@ -17,6 +17,11 @@ module.exports = {
             },
         },
     },
+    // variants: {
+    //     extend: {
+    //       backgroundColor: ['even'],
+    //     }
+    //   },
 
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 };

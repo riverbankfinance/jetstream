@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\LeadsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +37,37 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/about', function () {
     return Inertia::render('About');
 })->name('about');
+
+// Route::middleware(['auth:sanctum', 'verified'])->get('/admin', function () {
+//    $user = Auth::user();
+//     $id = $user->id;
+
+//     if (Auth::user()->role !='1'){
+//         abort(403);
+//     }
+//     else {
+//         return Inertia::render('Admin');
+//     }
+// })->name('admin');
+
+Route::get('/admin', ['middleware' => 'IsAdmin', function () {
+    return Inertia::render('Admin');
+}])->name('admin');
+
+// Route::middleware(['IsAdmin'])->get('/admin', function () {
+//     return Inertia::render('Admin');
+// })->name('admin');
+
+// Route::middleware(['auth', 'isAdmin'])->group(function () {
+//     Route::get('/admin', function () {
+//         return Inertia::render('Admin');
+//     })->name('admin');
+//   });
+
+Route::group(['middleware' => 'auth:sanctum', 'verified'], function (){
+    Route::get('/leads/list', [LeadsController::class, 'list'])->name('leads.list');
+    Route::get('/leads/add', [LeadsController::class, 'create'])->name('leads.add');
+    Route::post('/leads/save', [LeadsController::class, 'store'])->name('leads.save');
+});
+
+

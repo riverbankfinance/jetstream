@@ -20,6 +20,14 @@
             </div>
 
             <div class="mt-4">
+                <jet-label class="text-gray-700 dark:text-gray-200" for="role" value="Role"/>
+                <select name="role" id="role" v-model="form.role" required autofocus class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                    <option value="0">User</option>
+                    <option value="1">Admin</option>
+                </select>
+            </div>
+
+            <div class="mt-4">
                 <jet-label for="password" value="Password" />
                 <jet-input id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
             </div>
@@ -61,6 +69,7 @@
     import JetButton from '@/Jetstream/Button.vue'
     import JetInput from '@/Jetstream/Input.vue'
     import JetCheckbox from '@/Jetstream/Checkbox.vue'
+    import JetDropdown from '@/Jetstream/Dropdown.vue'
     import JetLabel from '@/Jetstream/Label.vue'
     import JetValidationErrors from '@/Jetstream/ValidationErrors.vue'
     import { Head, Link } from '@inertiajs/inertia-vue3';
@@ -73,6 +82,7 @@
             JetButton,
             JetInput,
             JetCheckbox,
+            JetDropdown,
             JetLabel,
             JetValidationErrors,
             Link,
@@ -83,6 +93,7 @@
                 form: this.$inertia.form({
                     name: '',
                     email: '',
+                    role: '',
                     password: '',
                     password_confirmation: '',
                     terms: false,

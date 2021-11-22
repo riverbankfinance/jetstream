@@ -7,26 +7,74 @@
         <div class="min-h-screen bg-gray-100">
             <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex-shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('leads.list')">
                                     <jet-application-mark class="block h-9 w-auto" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
-                                </jet-nav-link>
+
+                            <div class="hidden sm:ml-5 my-2 sm:flex px-3">
+                                <a :href="route('leads.add')" class="min-w-max rounded-lg bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-3 px-4 border border-green-500 hover:border-transparent rounded">
+                                    <i class="fas fa-user-plus"></i> Add Lead
+                                </a>
                             </div>
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <jet-nav-link :href="route('about')" :active="route().current('about')">
-                                    About
-                                </jet-nav-link>
+                            <div class="hidden my-2 sm:flex px-3">
+                                <a  class="min-w-max bg-transparent hover:bg-gray-500 text-gray-700 font-semibold hover:text-white py-3 px-4 border border-gray-500 hover:border-transparent rounded">
+                                    <i class="fas fa-user-plus"></i> Auto Assign
+                                </a>
+                            </div>
+                            <div class="hidden sm:flex my-2 px-3">
+                                <a class="min-w-max bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-3 px-4 border border-blue-500 hover:border-transparent rounded">
+                                    <i class="fas fa-user-plus"></i> Processors
+                                </a>
+                            </div>
+                            <!-- Search -->
+                            <div class="hidden flex sm:flex relative mx-auto w-1/4 max-w-md mt-2">
+                                <input class="border-gray-500 border-primary bg-red transition h-12 px-5 pr-16 rounded-md focus:outline-none w-full text-black text-lg " type="search" name="search" placeholder="Search" />
+                                <button type="submit" class="absolute right-2 top-3 mr-4">
+                                    <svg class="text-black h-6 w-6 fill-current" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="512px" height="512px">
+                                    <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Navigation Dropdown -->
+                            <div class="hidden sm:flex sm:items-center sm:ml-3">
+                            <div class="ml-3 relative">
+                                <jet-dropdown align="right" width="48">
+                                    <template #trigger>
+                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
+                                                Leads Menu
+
+                                                <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                </svg>
+                                            </button>
+                                    </template>
+
+                                    <template #content>
+                                        <div class="block px-4 py-2 text-xs text-gray-400">
+                                        Select Result
+                                        </div>
+
+                                        <jet-dropdown-link :href="route('leads.list')">
+                                            All Leads
+                                        </jet-dropdown-link>
+
+                                        <jet-dropdown-link :href="route('leads.list')">
+                                            Other Leads
+                                        </jet-dropdown-link>
+
+                                        <div class="border-t border-gray-100"></div>
+                                    </template>
+                                </jet-dropdown>
+                            </div>
                             </div>
                         </div>
 
@@ -112,11 +160,19 @@
                                         </div>
 
                                         <jet-dropdown-link :href="route('profile.show')">
-                                            Profile
+                                            <i class="fas fa-user-cog"></i> Profile
+                                        </jet-dropdown-link>
+
+                                        <jet-dropdown-link :href="route('dashboard')">
+                                            <i class="fas fa-user-cog"></i> Dashboard
+                                        </jet-dropdown-link>
+
+                                        <jet-dropdown-link :href="route('admin')" v-if="$page.props.user.role == '1'">
+                                            <i class="fas fa-user-cog"></i> Admin Page
                                         </jet-dropdown-link>
 
                                         <jet-dropdown-link :href="route('api-tokens.index')" v-if="$page.props.jetstream.hasApiFeatures">
-                                            API Tokens
+                                            <i class="fas fa-cogs"></i> API Tokens
                                         </jet-dropdown-link>
 
                                         <div class="border-t border-gray-100"></div>
@@ -124,7 +180,7 @@
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <jet-dropdown-link as="button">
-                                                Log Out
+                                            <i class="fas fa-sign-out-alt"></i> Log Out
                                             </jet-dropdown-link>
                                         </form>
                                     </template>
@@ -146,11 +202,6 @@
 
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
-                        <jet-responsive-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </jet-responsive-nav-link>
-                    </div>
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
@@ -223,7 +274,7 @@
 
             <!-- Page Heading -->
             <header class="bg-white shadow" v-if="$slots.header">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header"></slot>
                 </div>
             </header>
