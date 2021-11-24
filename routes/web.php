@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth:sanctum', 'verified'], function (){
     Route::get('/leads/list', [LeadsController::class, 'list'])->name('leads.list');
     Route::get('/leads/add', [LeadsController::class, 'create'])->name('leads.add');
     Route::post('/leads/save', [LeadsController::class, 'store'])->name('leads.save');
+    Route::get('/leads/view/{lead}', [LeadsController::class, 'view'])->name('lead.view');
 });
 
 

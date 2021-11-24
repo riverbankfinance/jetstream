@@ -51,4 +51,11 @@ class LeadsController extends Controller
 
         Return redirect()->route('leads.list');
     }
+
+    public function view(Lead $lead){
+
+        return Inertia::render('Leads/LeadView', [
+            'leadProp' => $lead
+        ]);
+    }
 }
