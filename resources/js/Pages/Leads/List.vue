@@ -81,7 +81,11 @@
                                        {{ moment(lead.created_at).format('MM/D/YY, h:mm:ss a')  }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                       <div class="text-blue-500"><i class="far fa-edit"></i></div>
+                                       <div class="text-blue-500">
+                                           <a :href="route('lead.view', {lead: lead})">
+                                            <i class="far fa-edit"></i>
+                                            </a>
+                                        </div>
                                        <div class="text-red-500"><i class="far fa-trash-alt"></i></div>
                                     </td>
                                     </tr>

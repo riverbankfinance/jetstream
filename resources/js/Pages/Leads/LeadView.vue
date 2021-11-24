@@ -70,7 +70,13 @@
                                 </div>
                             </div>
                             <div class="flex flex-col justify-center items-center">
-                                <button tabindex="7" type="submit" class="focus:outline-none text-sm w-24 px-4 py-2 mt-2 rounded-md font-semibold text-white bg-blue-500 ring-0">Submit</button>
+                                <div class="block text-green-500">{{ $page.props.flash.success }}</div>
+
+
+                                <div class="inline-block">
+                                    <a :href="route('leads.list')"><button tabindex="8" type="button" class="focus:outline-none text-sm w-24 px-4 py-2 mt-2 rounded-md font-semibold text-white bg-gray-500 ring-0">Back</button></a>
+                                    <button tabindex="7" type="submit" class="ml-3 focus:outline-none text-sm w-24 px-4 py-2 mt-2 rounded-md font-semibold text-white bg-blue-500 ring-0">Submit</button>
+                                </div>
                             </div>
                         </form>
                     </section>
@@ -96,6 +102,7 @@
         props: {
         errors: Object,
         leadProp: Object,
+        results: Object,
         },
         data(){
             return {
@@ -106,7 +113,7 @@
                     goal:'',
                     email:'',
                     message: '',
-                }
+                },
             }
         },
         created(){
@@ -114,7 +121,7 @@
         },
         methods:{
              async handleSubmit(){
-          //       let response = await this.$inertia.post('/leads/save', this.lead)
+                let response = await this.$inertia.post('/leads/update', this.lead)
             }
         }
     })
