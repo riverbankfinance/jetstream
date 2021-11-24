@@ -23,8 +23,8 @@ class UsersTableSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Jen Bird',
-            'email' => 'jen@riverbankfinance.com',
+            'name' => 'Normal User',
+            'email' => 'user@riverbankfinance.com',
             'role' => '0',
             'password' => Hash::make('Spring45#'),
         ]);
