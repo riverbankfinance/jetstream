@@ -70,6 +70,7 @@ Route::group(['middleware' => 'auth:sanctum', 'verified'], function (){
     Route::post('/leads/save', [LeadsController::class, 'store'])->name('leads.save');
     Route::get('/leads/view/{lead}', [LeadsController::class, 'view'])->name('lead.view');
     Route::post('/leads/update', [LeadsController::class, 'update'])->name('lead.update');
+    Route::get('/leads/list/search/{str}', [LeadsController::class, 'search'])->name('leads.search');
 });
 
 

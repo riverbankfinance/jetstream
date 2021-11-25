@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lead;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Lead;
 use PHPUnit\Framework\Constraint\Operator;
 
 class LeadsController extends Controller
@@ -31,6 +32,25 @@ class LeadsController extends Controller
             ->where('user_id', $userId)
             ->orderByDesc('id')
             ->get();
+
+        // $leads = DB::table('leads')->get();
+
+        return Inertia::render('Leads/List', [
+            'leads' => $leads
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        $userId=Auth::user()->id;
+        $leads = Lead::query()
+            ->where('fullName', 'like', '%' . $request->str . '%')
+            ->orWhere('email', 'like', '%'.$request->str.'%')
+            ->orWhere('phone', 'like', '%'.$request->str.'%')
+            ->orderByDesc('id')
+            ->get();
+
+        // $leads = DB::table('leads')->get();
 
         return Inertia::render('Leads/List', [
             'leads' => $leads
