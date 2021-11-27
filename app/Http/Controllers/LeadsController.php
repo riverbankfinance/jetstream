@@ -52,7 +52,7 @@ class LeadsController extends Controller
             ->where('user_id', $userId)
             ->orderByDesc('id')
             ->get();
-
+        //$leads=Lead::paginate();
         // $leads = DB::table('leads')->get();
 
         return Inertia::render('Leads/List', [

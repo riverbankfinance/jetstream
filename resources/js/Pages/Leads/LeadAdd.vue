@@ -24,10 +24,10 @@
                         </div>
                         <div class="text-left">
                             <label class="text-gray-700 dark:text-gray-200" for="goal">Loan Officer</label>
-                            <select name="user_id" id="user_id" v-model="lead.user_id" tabindex="4" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-                                <option disabled value="">Select</option>
-                                <option value="1">Anthony Bird</option>
-                                <option value="2">Other</option>
+                            <select name="user_id" id="user_id" v-model="lead.user_id" v-switch="lead.user_id" tabindex="4" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                                <option v-case="'0'" value="0">Select</option>
+                                <option v-case="'2'" value="1">Anthony Bird</option>
+                                <option v-case="'1'" value="2">Other</option>
                             </select>
                             <div v-if="errors.user_id" class="block text-red-500">{{ errors.user_id }}</div>
                         </div>

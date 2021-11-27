@@ -122,7 +122,7 @@
                                     <div class="flex relative mx-auto">
                                         <input id="address" name="address" type="text" v-model="lead.address" tabindex="3" placeholder="Address" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
                                         <div class="absolute right-2 top-5 mr-2">
-                                           <a :href="'https://app.floify.com/loan/view/'+lead.address"> <i class="ml-2 text-lg fas fa-sms text-blue-500"></i></a>
+                                           <a v-bind:href='zillow'> View Property <i class="ml-2 text-lg fas fa-location-arrow text-blue-500"></i></a>
                                         </div><div v-if="errors.address" class="block text-red-500">{{ errors.address }}</div>
                                     </div>
 
@@ -192,7 +192,7 @@
                                     <div class="flex relative mx-auto">
                                         <input id="floifyLoan" name="floifyLoan" type="text" v-model="lead.floifyLoan" tabindex="3" placeholder="Floify ID" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
                                         <div class="absolute right-2 top-5 mr-2">
-                                           <a :href="'https://app.floify.com/loan/view/'+lead.floifyLoan"> <i class="ml-2 text-lg fas fa-sms text-blue-500"></i></a>
+                                           <a :href="'https://app.floify.com/loan/view/'+lead.floifyLoan" target="_blank">Open Floify <i class="ml-2 text-lg fas fa-location-arrow text-blue-500"></i></a>
                                         </div>
                                     </div>
                                    <div v-if="errors.floifyLoan" class="block text-red-500">{{ errors.floifyLoan }}</div>
@@ -297,6 +297,19 @@
                 toggle: false,
                 toggle2: false
             }
+        },
+        computed: {
+        // a computed getter
+        zillow: function () {
+            // `this` points to the vm instance
+            var address2=this.lead.address.replace(/\s+/g, '-').toLowerCase()
+            var city2=this.lead.city.replace(/\s+/g, '-').toLowerCase()
+            var state2=this.lead.state.replace(/\s+/g, '-').toLowerCase()
+            var zillow ='https://www.zillow.com/homes/'+address2+'-'+city2+'-'+state2+this.lead.zip+'_rb/'
+
+            return zillow
+            // return this.message.split('').reverse().join('')
+        }
         },
         created(){
             this.lead = this.leadProp
