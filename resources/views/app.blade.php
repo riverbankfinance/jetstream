@@ -22,5 +22,14 @@
         @env ('local')
             <script src="http://localhost:3000/browser-sync/browser-sync-client.js"></script>
         @endenv
+        <script>
+              (function() {
+                    var rcs = document.createElement("script");
+                    rcs.src = "https://ringcentral.github.io/ringcentral-embeddable/adapter.js";
+                    var rcs0 = document.getElementsByTagName("script")[0];
+                    rcs0.parentNode.insertBefore(rcs, rcs0);
+                })();
+        </script>
+
     </body>
 </html>

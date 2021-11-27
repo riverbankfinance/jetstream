@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\LeadsController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,18 +18,21 @@ use App\Http\Controllers\LeadsController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'name' => 'Anthony Bird',
-        'frameworks'=> [
-            'Laravel', 'Vue', 'Inertia'
-        ]
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('login', [
+//        // 'canLogin' => Route::has('login'),
+//       //  'canRegister' => Route::has('register'),
+//        // 'laravelVersion' => Application::VERSION,
+//        // 'phpVersion' => PHP_VERSION,
+//         'name' => 'Anthony Bird',
+//         'frameworks'=> [
+//             'Laravel', 'Vue', 'Inertia'
+//         ]
+//     ]);
+// });
+
+
+Route::get('/', [AuthenticatedSessionController::class, 'create']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -65,11 +69,23 @@ Route::get('/admin', ['middleware' => 'IsAdmin', function () {
 //   });
 
 Route::group(['middleware' => 'auth:sanctum', 'verified'], function (){
+    //show list
     Route::get('/leads/list', [LeadsController::class, 'list'])->name('leads.list');
+
+    //add lead
     Route::get('/leads/add', [LeadsController::class, 'create'])->name('leads.add');
+    //save
     Route::post('/leads/save', [LeadsController::class, 'store'])->name('leads.save');
+
+    //edit
     Route::get('/leads/view/{lead}', [LeadsController::class, 'view'])->name('lead.view');
+    //save edit
     Route::post('/leads/update', [LeadsController::class, 'update'])->name('lead.update');
+
+    //delete
+    Route::get('/leads/delete/{lead}', [LeadsController::class, 'destroy'])->name('lead.delete');
+
+    //search
     Route::get('/leads/list/search/{str}', [LeadsController::class, 'search'])->name('leads.search');
 });
 

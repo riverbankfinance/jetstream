@@ -17,11 +17,31 @@ class LeadsController extends Controller
     {
         $this->validations= [
             'fullName' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
+            'email' => 'sometimes|email|nullable',
+            'phone' => 'nullable',
+            'status' => 'required|integer',
             'goal' => '',
             'message' => '',
             'loan_type' => '',
+            'user_id' => '',
+            'birthday' => '',
+            'fullNameCoborrower' => '',
+            'emailCoborrower' => 'sometimes|email|nullable',
+            'birthdayCoborrower' => '',
+            'phoneCoborrower' => '',
+            'address' => '',
+            'city' => '',
+            'state' => '',
+            'zip' => 'sometimes|numeric|nullable',
+            'url' => 'sometimes|url|nullable',
+            'ip' => 'sometimes|ip|nullable',
+            'agent' => '',
+            'referringUrl' => '',
+            'noText' => 'boolean|nullable',
+            'rating' => 'sometimes|numeric|nullable',
+            'floifyLoan' => 'sometimes|numeric|nullable',
+            'credit' => '',
+            'closed' => '',
         ];
     }
 
@@ -49,9 +69,10 @@ class LeadsController extends Controller
             ->orWhere('phone', 'like', '%'.$request->str.'%')
             ->orderByDesc('id')
             ->get();
+      //  $leads = $leads->paginate(1);
+        // $leads = $leads->appends($request->all());
 
         // $leads = DB::table('leads')->get();
-
         return Inertia::render('Leads/List', [
             'leads' => $leads
         ]);
@@ -67,13 +88,34 @@ class LeadsController extends Controller
         $postData = $this->validate($request, $this->validations);
 
         Lead::create([
+            'user_id' => Auth::user()->id,
             'fullName' => $postData['fullName'],
             'email' => $postData['email'],
             'loan_type' => $postData['loan_type'],
             'message' => $postData['message'],
+            'birthday' => $postData['birthday'],
             'phone' => $postData['phone'],
             'goal' => $postData['goal'],
-            'user_id' => Auth::user()->id,
+            'status' => $postData['status'],
+            'birthday' => $postData['birthday'],
+            'fullNameCoborrower' => $postData['fullNameCoborrower'],
+            'emailCoborrower' => $postData['emailCoborrower'],
+            'birthdayCoborrower' => $postData['birthdayCoborrower'],
+            'phoneCoborrower' => $postData['phoneCoborrower'],
+            'address' => $postData['address'],
+            'city' => $postData['city'],
+            'state' => $postData['state'],
+            'zip' => $postData['zip'],
+            'url' => $postData['url'],
+            'ip' => $postData['ip'],
+            'agent' => $postData['agent'],
+            'referringUrl' => $postData['referringUrl'],
+            'noText' => $postData['noText'],
+            'rating' => $postData['rating'],
+            'noText' => $postData['noText'],
+            'floifyLoan' => $postData['floifyLoan'],
+            'credit' => $postData['credit'],
+            'closed' => $postData['closed'],
         ]);
 
         Return redirect()->route('leads.list');
@@ -92,12 +134,19 @@ class LeadsController extends Controller
 
         $postData = $this->validate($request, $rules);
 
-        $lead = Lead::where('id', $postData['id'])->update($postData);
+        Lead::where('id', $postData['id'])->update($postData);
 
-
-        //$request->session()->flash('alert-success', 'User was successful added!');
-        //return redirect()->route('lead.view', ['lead' => $postData['id']]);
-        //return redirect()->back()->with('success_message', 'Yay it worked');
-        return redirect()->back()->with('success', 'Lead Updated!');
+        $request->session()->flash('flash.banner', 'Lead Updated!');
+        $request->session()->flash('flash.bannerStyle', 'success');
+        return redirect()->back();
     }
+
+    public function destroy(Lead $lead)
+    {
+        $lead->delete();
+        request()->session()->flash('flash.banner', 'Lead Successfully Deleted!');
+        request()->session()->flash('flash.bannerStyle', 'success');
+        return redirect()->back();
+    }
+
 }
